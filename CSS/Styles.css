@@ -1,0 +1,46 @@
+h1{
+        background: #707377;
+        background: linear-gradient(#d6cdcd, #000000);
+        text-align: center;
+        color: white;
+        margin: auto;
+        position: relative;
+        font-size: 1.5em;
+        font-family: "Comic Sans MS";
+    }
+    
+body {
+        background: #707377;
+        background: linear-gradient(#d6cdcd, #707377);
+        position: relative;
+        text-align: center;
+    }
+
+#wrapper {
+        color:white;
+        width: 900px;
+        margin: 0 auto; 
+}
+            
+table {
+        border-radius: 25px;
+        border-color: black;
+        text-align: center;
+    }
+    
+tr,td {
+    text-align:left;
+    table-layout: fixed;
+}
+
+button {
+        background: #707377;
+        background: linear-gradient(#918e8c, #707377);
+        cursor: pointer;
+        text-align: center;
+        border: solid;
+        color: blue;
+        text-decoration: none;
+        display: inline-block;
+        font-family: "Comic Sans MS";
+    }
