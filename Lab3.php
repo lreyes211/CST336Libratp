@@ -1,5 +1,33 @@
 <?php
 
+function CardValueCheck ($Card) {
+    if ($Card % 13 == 11){
+        return 11;
+    }
+    else if ($Card % 13 == 12) {
+        return 12;
+    }
+    else if ($Card % 13 == 0 && $Card != 0) {
+        return 13;
+    }
+    else{
+        return $Card % 13;
+    }
+}
+
+function DeckTotal ($List) {
+    if (count ($List) < 1) {
+        return 0;
+    }
+    else {
+        $Total = 0;
+        for ($i = 0; $i < count($List); $i++) {
+            $Total += CardValueCheck ($List[$i]);
+        }
+        return $Total;
+    }
+}
+
 function WinningTotal ($Winner,$S1, $S2,$S3,$S4) {
     if ($Winner[0] == "Everyone Busted!") {
         $Totals = array();
