@@ -1,18 +1,40 @@
 <?php
 
-function CardValueCheck ($Card) {
-    if ($Card % 13 == 11){
-        return 11;
+function Check ($List, $element) {
+    for ($i = 0; $i < count($List); $i++) {
+        if ($List[$i] == $element) {
+            return true;
+        }
     }
-    else if ($Card % 13 == 12) {
-        return 12;
+    return false;
+}
+
+function Carddisplay (&$List, &$Deck) {
+    $Suits = array ("Club", "Diamond", "Spade", "Heart");
+    $randSuit = rand(0,3);
+    $randList = rand(1,13);
+    $RNG = ($randSuit * 13) + $randList;
+    
+    while (Check ($List,$RNG) || Check ($Deck,$RNG)) {
+        $randSuit = rand(0,3);
+        $randList = rand(1,13);
+        $RNG = ($randSuit * 13) + $randList;
     }
-    else if ($Card % 13 == 0 && $Card != 0) {
-        return 13;
+    echo "<img src='Img/Cards/$Suits[$randSuit]/" . $randList . ".png' />";
+    $List[] = $RNG;
+    $Deck[] = $RNG;
+}
+
+function RandPlayersDisplay (&$prevDisplay, &$index) {
+    global $P1C, $P2C, $P3C, $P4C;
+    $P = array ($P1C, $P2C, $P3C, $P4C);
+    $randList = rand(0,3);
+    while (Check ($prevDisplay, $randList)) {
+        $randList = rand(0,3);
     }
-    else{
-        return $Card % 13;
-    }
+        $prevDisplay[] = $randList;
+        $index = $randList;
+        return $P[$randList];
 }
 
 function DeckTotal ($List) {
@@ -25,6 +47,21 @@ function DeckTotal ($List) {
             $Total += CardValueCheck ($List[$i]);
         }
         return $Total;
+    }
+}
+
+function CardValueCheck ($Card) {
+    if ($Card % 13 == 11){
+        return 11;
+    }
+    else if ($Card % 13 == 12) {
+        return 12;
+    }
+    else if ($Card % 13 == 0 && $Card != 0) {
+        return 13;
+    }
+    else{
+        return $Card % 13;
     }
 }
 
@@ -75,12 +112,44 @@ function FindWin ($S1, $S2,$S3,$S4,&$Winners) {
     }
 }
 
+function CalcWin ($S1, $S2, $S3, $S4) {
+    $Amount = array();
+    $Amount[] = $S1;
+    $Amount[] = $S2;
+    $Amount[] = $S3;
+    $Amount[] = $S4;
+    $P = array("Linda", "Tyler", "Yashkaran", "Seth");
+    $Win_score = 0;
+    $Bust = true;
+    for ($i = 0; $i < count($Amount); $i++) {
+        if ($Amount[$i] <= 42) {
+            $Bust = false;
+        }
+    }
+        if ($Bust) {
+            return -1;
+        }
+        else {
+            for ($i = 0; $i < count($Amount); $i++) {
+                if (($Amount[$i] > $Win_score) && ($Amount[$i] <= 42)){
+                    $Win_score = $Amount[$i];
+                }
+            }
+            return $Win_score;
+        }
+    }
+
+function Rematch() {
+    if (isset($_GET['submitForm'])) {
+        return "https://cst336tchargin-tchargin.c9users.io/Labs/Lab3/Lab3.php";
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <Style> @import url("/Labs/Lab3/CSS/Styles.css");</Style>
+        <Style> @import url("lab3/CSS/Styles.css");</Style>
         <title> CST336 SilverJack </title>
     </head>
     
@@ -132,7 +201,6 @@ function FindWin ($S1, $S2,$S3,$S4,&$Winners) {
         <br />
         <br />
         <div id="wrapper">
-            
         <b>Rules:</b> <br />
         Each player draws cards until the sum of the cards is <i> close enough</i> to 42 or has just exceeded 42.
         Jack is worth 11 points, Queen 12, King 13, Ace 1.
