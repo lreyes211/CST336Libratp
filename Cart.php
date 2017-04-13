@@ -78,7 +78,11 @@ function displayCart() {
             }
             }
             else {
+<<<<<<< HEAD
                 echo "Nothing!";
+=======
+                echo "The Cart is Empty!";
+>>>>>>> f94d4c6b350d0ff539f1efa4263b6e57fb9db81b
             }
             ?>
         </table>
